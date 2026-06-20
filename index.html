@@ -2,81 +2,145 @@
 <html>
 <head>
 <meta charset="utf-8">
+<title>Document Comparator</title>
+
+<script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
 
 <style>
 body {
     font-family: Arial, sans-serif;
-    margin: 20px;
+    background: #0f172a;
+    color: #e5e7eb;
+    margin: 0;
+    padding: 20px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.card {
+    background: #111827;
+    padding: 20px;
+    border-radius: 12px;
+    max-width: 900px;
+    margin: auto;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+input, button {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+}
+
+button {
+    background: #3b82f6;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    background: #2563eb;
 }
 
 .container {
     display: flex;
-    gap: 20px;
+    gap: 15px;
     margin-top: 20px;
 }
 
 .version {
     flex: 1;
-    border: 1px solid #ccc;
+    background: #1f2937;
     padding: 15px;
+    border-radius: 10px;
     white-space: pre-wrap;
-    background: #fafafa;
     min-height: 300px;
-}
-
-h3 {
-    margin-top: 0;
-    border-bottom: 2px solid #333;
-    padding-bottom: 10px;
-}
-
-.deleted {
-    background-color: #ffcccc;
-    color: #cc0000;
-    text-decoration: line-through;
-    font-weight: bold;
+    overflow-x: auto;
 }
 
 .added {
-    background-color: #ccffcc;
-    color: #006600;
+    background: #064e3b;
+    color: #34d399;
     font-weight: bold;
 }
 
-input, button {
-    margin: 5px 0;
+.deleted {
+    background: #7f1d1d;
+    color: #f87171;
+    text-decoration: line-through;
+    font-weight: bold;
 }
 </style>
-
 </head>
 
 <body>
 
-<h2>Comparación de Archivos</h2>
+<h2>📄 Document Comparison Tool</h2>
 
-<!-- UPLOAD SECTION -->
-<input type="file" id="file1">
-<input type="file" id="file2">
-<button onclick="compare()">Comparar</button>
+<div class="card">
+
+<input type="file" id="file1" accept=".txt,.docx">
+<input type="file" id="file2" accept=".txt,.docx">
+<br>
+<button onclick="compare()">Compare Documents</button>
 
 <div class="container">
     <div class="version" id="output1">
-        <h3>Versión 1</h3>
+        <h3>Version 1</h3>
     </div>
 
     <div class="version" id="output2">
-        <h3>Versión 2</h3>
+        <h3>Version 2</h3>
     </div>
 </div>
 
+</div>
+
 <script>
-function readFile(file) {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = reject;
-        reader.readAsText(file);
-    });
+
+async function readFile(file) {
+    if (!file) return "";
+
+    // DOCX support
+    if (file.name.endsWith(".docx")) {
+        const arrayBuffer = await file.arrayBuffer();
+        const result = await mammoth.extractRawText({ arrayBuffer });
+        return result.value;
+    }
+
+    // TXT support
+    return await file.text();
+}
+
+// simple diff (line-based)
+function diff(text1, text2) {
+    const a = text1.split("\n");
+    const b = text2.split("\n");
+
+    let out1 = "";
+    let out2 = "";
+
+    const max = Math.max(a.length, b.length);
+
+    for (let i = 0; i < max; i++) {
+        const lineA = a[i] || "";
+        const lineB = b[i] || "";
+
+        if (lineA === lineB) {
+            out1 += lineA + "\n";
+            out2 += lineB + "\n";
+        } else {
+            if (lineA) out1 += `<span class="deleted">${lineA}</span>\n`;
+            if (lineB) out2 += `<span class="added">${lineB}</span>\n`;
+        }
+    }
+
+    return [out1, out2];
 }
 
 async function compare() {
@@ -91,11 +155,13 @@ async function compare() {
     const text1 = await readFile(file1);
     const text2 = await readFile(file2);
 
-    document.getElementById("output1").innerText = text1;
-    document.getElementById("output2").innerText = text2;
+    const [out1, out2] = diff(text1, text2);
+
+    document.getElementById("output1").innerHTML = "<h3>Version 1</h3>" + out1;
+    document.getElementById("output2").innerHTML = "<h3>Version 2</h3>" + out2;
 }
+
 </script>
 
 </body>
 </html>
-
