@@ -1,0 +1,56 @@
+This Telecommunications Service Agreement (“Agreement”) is entered into as of the Effective Date by and between:
+
+Provider: Apex Telecom Services Inc.
+Client: ___________________________
+
+1. SERVICES
+
+The Provider agrees to supply telecommunications services including voice calling, internet connectivity, data transmission, and optional cloud-based communication tools (“Services”).
+
+Services include:
+
+Broadband internet access (up to agreed bandwidth tier)
+VoIP telephone services
+Business messaging platform access
+Technical support (24/7)
+2. TERM
+
+This Agreement shall commence on the Effective Date and continue for a period of 36 months, unless terminated earlier in accordance with this Agreement.
+
+3. FEES AND PAYMENT
+
+The Client agrees to pay monthly fees as follows:
+
+Base service fee: $1,150/month
+Additional usage fees may apply for exceeding bandwidth limits
+Invoices are due within 10 days of issuance.
+
+Late payments incur a 1.5% monthly interest charge.
+
+4. INSTALLATION AND EQUIPMENT
+
+Provider will supply necessary equipment (routers, modems, VoIP devices). Equipment remains property of Provider unless purchased separately.
+
+5. SERVICE LEVEL AGREEMENT (SLA)
+
+Provider guarantees:
+
+99.7% uptime monthly
+Response to critical outages within 3 hours
+6. TERMINATION
+
+Either party may terminate this Agreement with 90 days written notice after the initial 18-month period.
+
+Early termination before 18 months requires payment of 40% of remaining contract value.
+
+7. LIMITATION OF LIABILITY
+
+Provider shall not be liable for indirect, incidental, or consequential damages.
+
+8. CONFIDENTIALITY
+
+Both parties agree to maintain confidentiality regarding technical, financial, and operational information.
+
+9. GOVERNING LAW
+
+This Agreement shall be governed by the laws of the Province of Manitoba, Canada.
